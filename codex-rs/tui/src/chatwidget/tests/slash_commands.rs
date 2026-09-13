@@ -1811,6 +1811,17 @@ async fn no_op_stub_slash_command_is_available_from_local_recall() {
 }
 
 #[tokio::test]
+async fn slash_tree_opens_agent_tree_while_task_is_running() {
+    let (mut chat, mut rx, _op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
+    chat.bottom_pane.set_task_running(/*running*/ true);
+
+    chat.dispatch_command(SlashCommand::Tree);
+
+    assert_matches!(rx.try_recv(), Ok(AppEvent::OpenAgentTree));
+    assert!(chat.bottom_pane.is_task_running());
+}
+
+#[tokio::test]
 async fn slash_quit_requests_exit() {
     let (mut chat, mut rx, _op_rx) = make_chatwidget_manual(/*model_override*/ None).await;
 
