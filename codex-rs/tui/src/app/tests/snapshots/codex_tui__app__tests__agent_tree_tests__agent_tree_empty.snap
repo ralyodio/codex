@@ -1,0 +1,10 @@
+---
+source: tui/src/app/tests/agent_tree_tests.rs
+expression: "render_bottom_popup(&app.chat_widget, 80)"
+---
+  Agent tree
+  No subagents yet. Ask Codex to delegate a task, then reopen /tree.
+
+› 1. • Main [default]  Idle · 00000000-0000-0000-0000-000000000100
+
+  Press enter to confirm or esc to go back

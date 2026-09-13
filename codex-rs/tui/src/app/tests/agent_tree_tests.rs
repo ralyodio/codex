@@ -140,15 +140,14 @@ async fn agent_tree_refresh_preserves_selected_thread_when_parent_is_discovered(
         "source": "cli", "turns": []
     }))
     .unwrap();
-    thread.source = codex_app_server_protocol::SessionSource::SubAgent(
-        codex_app_server_protocol::SubAgentSource::ThreadSpawn {
+    thread.source =
+        codex_app_server_protocol::SessionSource::SubAgent(SubAgentSource::ThreadSpawn {
             parent_thread_id: root,
             depth: 1,
-            agent_path: Some("/root/parent".to_string()),
+            agent_path: Some("/root/parent".parse().unwrap()),
             agent_nickname: None,
             agent_role: None,
-        },
-    );
+        });
     let request = app.agent_navigation.begin_picker_refresh(root).unwrap();
     app.apply_agent_picker_thread_refresh(root, request, Ok(vec![thread]));
     while events.try_recv().is_ok() {}

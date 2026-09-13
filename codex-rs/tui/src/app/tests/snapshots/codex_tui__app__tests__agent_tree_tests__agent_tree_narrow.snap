@@ -1,0 +1,17 @@
+---
+source: tui/src/app/tests/agent_tree_tests.rs
+expression: "render_bottom_popup(&app.chat_widget, 48)"
+---
+  Agent tree
+  This session's subagents. Reopen /tree to re
+
+  1. • Main [default]           Running · /
+                                root
+  2. ├── • worker               Running · /
+                                root/worker
+› 3. │   └── • review (current… Idle · /root/
+                                worker/review
+  4. └── • done                 Closed · /
+                                root/done
+
+  Press enter to confirm or esc to go back
