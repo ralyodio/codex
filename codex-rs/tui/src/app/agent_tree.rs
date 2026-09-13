@@ -42,7 +42,7 @@ pub(super) fn agent_tree_rows(
     let mut roots = Vec::new();
     for (index, (_, entry)) in threads.iter().enumerate() {
         if Some(index) == primary {
-            roots.insert(0, index);
+            roots.insert(/*index*/ 0, index);
             continue;
         }
         let mut path = entry

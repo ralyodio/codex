@@ -141,10 +141,10 @@ async fn agent_tree_refresh_preserves_selected_thread_when_parent_is_discovered(
     }))
     .unwrap();
     thread.source = codex_app_server_protocol::SessionSource::SubAgent(
-        codex_app_server_protocol::SubAgentSource::ThreadSpawn {
+        SubAgentSource::ThreadSpawn {
             parent_thread_id: root,
             depth: 1,
-            agent_path: Some("/root/parent".to_string()),
+            agent_path: Some("/root/parent".parse().unwrap()),
             agent_nickname: None,
             agent_role: None,
         },
