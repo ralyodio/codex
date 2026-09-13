@@ -342,6 +342,9 @@ impl ChatWidget {
             SlashCommand::Agents => {
                 self.app_event_tx.send(AppEvent::OpenAgentsOverview);
             }
+            SlashCommand::Tree => {
+                self.app_event_tx.send(AppEvent::OpenAgentTree);
+            }
             SlashCommand::MultiAgents => {
                 self.app_event_tx.send(AppEvent::OpenAgentPicker);
             }
@@ -1216,6 +1219,7 @@ impl ChatWidget {
             | SlashCommand::Keymap
             | SlashCommand::Agents
             | SlashCommand::MultiAgents
+            | SlashCommand::Tree
             | SlashCommand::Permissions
             | SlashCommand::ElevateSandbox
             | SlashCommand::Experimental

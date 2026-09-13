@@ -201,6 +201,7 @@ mod agent_message_consolidation;
 mod agent_navigation;
 mod agent_picker;
 mod agent_status_feed;
+mod agent_tree;
 mod agents_overview;
 mod agents_overview_actions;
 mod agents_overview_details;

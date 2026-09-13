@@ -75,6 +75,7 @@ impl App {
             && matches!(
                 event,
                 AppEvent::OpenAgentPicker
+                    | AppEvent::OpenAgentTree
                     | AppEvent::SelectAgentThread(_)
                     | AppEvent::StartSide { .. }
                     | AppEvent::ForkCurrentSession { .. }
@@ -2579,6 +2580,18 @@ impl App {
                     .add_error_message(format!("Failed to start the background server: {error}")),
             },
             AppEvent::OpenAgentPicker => {
+                self.agent_navigation.picker_layout = super::agent_tree::AgentPickerLayout::List;
+                self.open_agent_picker(app_server).await;
+            }
+            AppEvent::OpenAgentTree => {
+                self.agent_navigation.picker_layout = super::agent_tree::AgentPickerLayout::Tree;
+                if let Some(root) = self.primary_thread_id
+                    && self.agent_navigation.get(&root).is_none()
+                {
+                    self.upsert_agent_picker_thread(
+                        root, /*agent_nickname*/ None, /*agent_role*/ None, /*is_closed*/ false,
+                    );
+                }
                 self.open_agent_picker(app_server).await;
             }
             AppEvent::AgentPickerThreadsLoaded {

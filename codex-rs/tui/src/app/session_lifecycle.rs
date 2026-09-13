@@ -136,7 +136,10 @@ impl App {
         let has_non_primary_agent_thread = self
             .agent_navigation
             .has_non_primary_thread(self.primary_thread_id);
-        if !self.config.features.enabled(Feature::Collab) && !has_non_primary_agent_thread {
+        if !self.config.features.enabled(Feature::Collab)
+            && !has_non_primary_agent_thread
+            && self.agent_navigation.picker_layout == super::agent_tree::AgentPickerLayout::List
+        {
             if let Some(primary_thread_id) = self.primary_thread_id {
                 self.refresh_agent_picker_threads(app_server, primary_thread_id);
             }
@@ -145,8 +148,14 @@ impl App {
         }
 
         if self.agent_navigation.is_empty() {
+            let message = match self.agent_navigation.picker_layout {
+                super::agent_tree::AgentPickerLayout::Tree => {
+                    "No subagents yet. Ask Codex to delegate a task, then reopen /tree."
+                }
+                super::agent_tree::AgentPickerLayout::List => "No agents available yet.",
+            };
             self.chat_widget
-                .add_info_message("No agents available yet.".to_string(), /*hint*/ None);
+                .add_info_message(message.to_string(), /*hint*/ None);
             return;
         }
 
@@ -170,6 +179,9 @@ impl App {
         &self,
         selected: Option<usize>,
     ) -> SelectionViewParams {
+        if self.agent_navigation.picker_layout == super::agent_tree::AgentPickerLayout::Tree {
+            return self.agent_tree_selection_view_params(selected);
+        }
         let mut initial_selected_idx = selected;
         let items: Vec<SelectionItem> = self
             .agent_navigation

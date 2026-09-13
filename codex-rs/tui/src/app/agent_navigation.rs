@@ -51,6 +51,7 @@ pub(crate) struct AgentNavigationState {
     parent_owned_threads: HashSet<ThreadId>,
     /// Coalesces root refreshes while rejecting replies from a previous session.
     pub(super) picker_refresh: Option<(ThreadId, Uuid)>,
+    pub(super) picker_layout: super::agent_tree::AgentPickerLayout,
 }
 
 /// Direction of keyboard traversal through the stable picker order.
@@ -224,6 +225,7 @@ impl AgentNavigationState {
         self.stopped_threads.clear();
         self.parent_owned_threads.clear();
         self.picker_refresh = None;
+        self.picker_layout = Default::default();
     }
 
     /// Removes a tracked thread entirely from picker metadata and traversal order.
